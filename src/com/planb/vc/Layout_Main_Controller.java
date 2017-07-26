@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -42,7 +43,11 @@ public class Layout_Main_Controller implements Initializable {
 	}
 	
 	public void openFolderButtonOnAction(ActionEvent e) {
-		// Dialog show
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle("폴더를 선택하세요.");
+		File dir = directoryChooser.showDialog(Main.stage);
+
+		
 	}
 	
 	private String makeFileInfoText(List<File> files) {
