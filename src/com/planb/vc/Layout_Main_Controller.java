@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.planb.main.Main;
+import com.planb.support.FileManager;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +26,8 @@ public class Layout_Main_Controller implements Initializable {
 	}
 	
 	public void openFileButtonOnAction(ActionEvent e) {
+		FileManager.files = new File[500];
+		
 		// Dialog show
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("파일을 선택하세요.");
@@ -39,15 +42,25 @@ public class Layout_Main_Controller implements Initializable {
 				new ExtensionFilter("모든 파일", "*.*"));
 
 		List<File> files = fileChooser.showOpenMultipleDialog(Main.stage);
+		for(int i = 0; i < files.size(); i++) {
+			// List to array
+			FileManager.files[i] = files.get(i);
+		}
+		
 		filepathField.setText(makeFileInfoText(files));
 	}
 	
 	public void openFolderButtonOnAction(ActionEvent e) {
+		FileManager.files = new File[500];
+		
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("폴더를 선택하세요.");
 		File dir = directoryChooser.showDialog(Main.stage);
 
+		FileManager.exploreFile(dir);
+		// FileManager manages
 		
+		filepathField.setText("\"" + dir.getAbsolutePath() + "\"");
 	}
 	
 	private String makeFileInfoText(List<File> files) {
@@ -62,6 +75,14 @@ public class Layout_Main_Controller implements Initializable {
 	
 	public void sendButtonOnAction(ActionEvent e) {
 		
+		if(FileManager.compressZip(FileManager.files)) {
+			// 파일이 2개 이상이여서 압축됨
+			System.out.println("zip");
+		} else {
+			// 파일이 하나임
+			System.out.println("one");
+		}
+		getKeyFromServer();
 	}
 	
 	private boolean isPaired() {
@@ -78,5 +99,6 @@ public class Layout_Main_Controller implements Initializable {
 		}
 		
 		// 비콘을 통해 전송
+		new File("temp.zip").delete();
 	}
 }
