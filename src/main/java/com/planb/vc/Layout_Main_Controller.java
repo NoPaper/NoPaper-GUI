@@ -1,6 +1,8 @@
 package com.planb.vc;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,7 +22,12 @@ public class Layout_Main_Controller implements Initializable {
 	@FXML
 	private TextField filepathField;
 	
-	@Override
+	@FXML
+	private TextField gradeField;
+	
+	@FXML
+	private TextField classField;
+	
 	public void initialize(URL location, ResourceBundle resources) {
 		
 	}
@@ -30,16 +37,16 @@ public class Layout_Main_Controller implements Initializable {
 		
 		// Dialog show
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("파일을 선택하세요.");
+		fileChooser.setTitle("??? ?????.");
 
 		// add extension filters
 		fileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("문서 파일", "*.txt", "*.rtf", "*.hwp", "*.pdf", "*.doc", "*.ppt"),
-				new ExtensionFilter("이미지 파일", "*.png", "*.jpg", "*.gif", "*.bmp", "*.psd", "*.pdd", "*.tif"),
-				new ExtensionFilter("오디오 파일", "*.wav", "*.mp3", "*.aac"),
-				new ExtensionFilter("동영상 파일", "*.avi", "*.mp4", "*.mpeg", "*.mkv", "*.flv", "*.mov"),
-				new ExtensionFilter("압축 파일", "*.zip", "*.egg", "*.rar", "*.tgz", "*.gz"),
-				new ExtensionFilter("모든 파일", "*.*"));
+				new ExtensionFilter("?? ??", "*.txt", "*.rtf", "*.hwp", "*.pdf", "*.doc", "*.ppt"),
+				new ExtensionFilter("??? ??", "*.png", "*.jpg", "*.gif", "*.bmp", "*.psd", "*.pdd", "*.tif"),
+				new ExtensionFilter("??? ??", "*.wav", "*.mp3", "*.aac"),
+				new ExtensionFilter("??? ??", "*.avi", "*.mp4", "*.mpeg", "*.mkv", "*.flv", "*.mov"),
+				new ExtensionFilter("?? ??", "*.zip", "*.egg", "*.rar", "*.tgz", "*.gz"),
+				new ExtensionFilter("?? ??", "*.*"));
 
 		List<File> files = fileChooser.showOpenMultipleDialog(Main.stage);
 		for(int i = 0; i < files.size(); i++) {
@@ -54,7 +61,7 @@ public class Layout_Main_Controller implements Initializable {
 		FileManager.files = new File[500];
 		
 		DirectoryChooser directoryChooser = new DirectoryChooser();
-		directoryChooser.setTitle("폴더를 선택하세요.");
+		directoryChooser.setTitle("??? ?????.");
 		File dir = directoryChooser.showDialog(Main.stage);
 
 		FileManager.exploreFile(dir);
@@ -72,36 +79,36 @@ public class Layout_Main_Controller implements Initializable {
 		
 		return sb.substring(0, sb.length() - 2).toString();
 	}
-	
+
 	public void sendButtonOnAction(ActionEvent e) {
 		File file;
 		if(FileManager.compressZip(FileManager.files)) {
-			// 파일이 2개 이상이여서 압축됨
+			// ??? 2? ????? ???
 			file = new File("temp.zip");
 		} else {
-			// 파일이 하나임
+			// ??? ???
 			file = FileManager.files[0];
 		}
-		
+
 		sendViaBeacon(getKeyFromServer(file));
 	}
-	
+
 	private boolean isPaired() {
 		return true;
 	}
-	
+
 	private String getKeyFromServer(File file) {
-		// 서버에 파일을 전송하고 고유 id 받기
-		
+		// ??? ??? ???? ?? id ??
+
 		return "";
 	}
-	
+
 	private void sendViaBeacon(String key) {
 		if(!isPaired()) {
 			return;
 		}
-		
-		// 비콘을 통해 전송
+
+		// ??? ?? ??
 		new File("temp.zip").delete();
 	}
 }
