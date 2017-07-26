@@ -38,12 +38,22 @@ public class Layout_Main_Controller implements Initializable {
 				new ExtensionFilter("모든 파일", "*.*"));
 
 		List<File> files = fileChooser.showOpenMultipleDialog(Main.stage);
+		filepathField.setText(makeFileInfoText(files));
 	}
 	
 	public void openFolderButtonOnAction(ActionEvent e) {
 		// Dialog show
 	}
 	
+	private String makeFileInfoText(List<File> files) {
+		StringBuilder sb = new StringBuilder();
+		
+		for(File file: files) {
+			sb.append("\"").append(file.getName()).append("\"").append(", ");
+		}
+		
+		return sb.substring(0, sb.length() - 2).toString();
+	}
 	
 	public void sendButtonOnAction(ActionEvent e) {
 		
