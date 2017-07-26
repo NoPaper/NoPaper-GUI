@@ -18,16 +18,13 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
@@ -96,10 +93,8 @@ public class Layout_Main_Controller implements Initializable {
 	public void sendButtonOnAction(ActionEvent e) {
 		File file;
 		if(FileManager.compressZip(FileManager.files)) {
-			// ??? 2? ????? ???
 			file = new File("temp.zip");
 		} else {
-			// ??? ???
 			file = FileManager.files[0];
 		}
 
@@ -111,16 +106,15 @@ public class Layout_Main_Controller implements Initializable {
 	}
 
 	private String getKeyFromServer(File file) {
-		// ??? ??? ???? ?? id ??
         CloseableHttpClient client = HttpClients.createDefault();
 
         HttpEntity data = MultipartEntityBuilder.create()
                 .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-                .addBinaryBody("upload", file, ContentType.DEFAULT_BINARY, file.getName())
+                .addBinaryBody("test_form", file, ContentType.DEFAULT_BINARY, file.getName())
                 .build();
 
         HttpUriRequest request = RequestBuilder
-                .post("http://localhost:3306/upload")
+                .post("http://localhost/upload")
                 .setEntity(data)
                 .build();
 
@@ -129,12 +123,10 @@ public class Layout_Main_Controller implements Initializable {
         };
 
         try {
-            System.out.println(client.execute(request, responseHandler));
+            return client.execute(request, responseHandler);
         } catch(IOException e) {
-
+            return null;
         }
-
-		return "";
 	}
 
 	private void sendViaBeacon(String key) {
@@ -142,7 +134,6 @@ public class Layout_Main_Controller implements Initializable {
 			return;
 		}
 
-		// ??? ?? ??
 		new File("temp.zip").delete();
 	}
 }

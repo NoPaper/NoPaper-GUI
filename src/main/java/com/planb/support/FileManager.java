@@ -34,7 +34,6 @@ public class FileManager {
 			count++;
 		}
 		
-		System.out.println(count);
 		if(count < 2) {
 			return false;
 		}
