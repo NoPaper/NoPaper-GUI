@@ -74,26 +74,29 @@ public class Layout_Main_Controller implements Initializable {
 	}
 	
 	public void sendButtonOnAction(ActionEvent e) {
-		
+		File file;
 		if(FileManager.compressZip(FileManager.files)) {
 			// 파일이 2개 이상이여서 압축됨
-			System.out.println("zip");
+			file = new File("temp.zip");
 		} else {
 			// 파일이 하나임
-			System.out.println("one");
+			file = FileManager.files[0];
 		}
-		getKeyFromServer();
+		
+		sendViaBeacon(getKeyFromServer(file));
 	}
 	
 	private boolean isPaired() {
 		return true;
 	}
 	
-	private void getKeyFromServer() {
+	private String getKeyFromServer(File file) {
 		// 서버에 파일을 전송하고 고유 id 받기
+		
+		return "";
 	}
 	
-	private void sendViaBeacon() {
+	private void sendViaBeacon(String key) {
 		if(!isPaired()) {
 			return;
 		}
