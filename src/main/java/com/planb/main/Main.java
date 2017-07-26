@@ -13,7 +13,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		stage = primaryStage;
 		
-		Parent root = FXMLLoader.load(getClass().getResource("/com/planb/vc/Layout_Main.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/Layout_Main.fxml"));
 		Scene scene = new Scene(root);
 		
 		primaryStage.setScene(scene);

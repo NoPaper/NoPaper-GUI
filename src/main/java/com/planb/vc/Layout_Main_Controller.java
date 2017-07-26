@@ -17,6 +17,19 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 public class Layout_Main_Controller implements Initializable {
 	@FXML
@@ -99,6 +112,27 @@ public class Layout_Main_Controller implements Initializable {
 
 	private String getKeyFromServer(File file) {
 		// ??? ??? ???? ?? id ??
+        CloseableHttpClient client = HttpClients.createDefault();
+
+        HttpEntity data = MultipartEntityBuilder.create()
+                .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
+                .addBinaryBody("upload", file, ContentType.DEFAULT_BINARY, file.getName())
+                .build();
+
+        HttpUriRequest request = RequestBuilder
+                .post("http://localhost:3306/upload")
+                .setEntity(data)
+                .build();
+
+        ResponseHandler<String> responseHandler = response -> {
+            return EntityUtils.toString(response.getEntity());
+        };
+
+        try {
+            System.out.println(client.execute(request, responseHandler));
+        } catch(IOException e) {
+
+        }
 
 		return "";
 	}
